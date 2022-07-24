@@ -35,6 +35,11 @@ const restaurant = {
 
    orderPizza:function(ing1,ing2,ing3){
     console.log(`Here is your pizza with '${ing1}','${ing2}','${ing3}'`);
+   },
+
+   orderPizzaMain:function(mainIngredient,...others){
+    console.log(mainIngredient);
+    console.log(others);
    }
 };
 
@@ -157,8 +162,8 @@ console.log(letters);
 console.log(...names);
 
 //passing input values into fn
-const ingredients=[prompt('ingredient1?'),prompt('ingredient2?'),prompt('ingredient3?')];
-restaurant.orderPizza(...ingredients);
+// const ingredients=[prompt('ingredient1?'),prompt('ingredient2?'),prompt('ingredient3?')];
+// restaurant.orderPizza(...ingredients);
 
 
 //ES2018 - works on objects too
@@ -168,3 +173,125 @@ console.log(backUpRestaurant);
 
 const newRestaurant={...restaurant,foundedIn:1998,rating:5};
 console.log(newRestaurant);
+
+
+/*REST OPERTAOR - 
+packs rest of the elements into array
+L.H.S of = */
+
+//1.DESTRUCTURING
+const [u,v,...rest]=[1,2,3,4,5];
+console.log(rest);
+
+//it does not include any skipped elements so the rest pattern always must be the last
+const [pizza,,risotto,...restItems]=[...restaurant.mainMenu,...restaurant.starterMenu];
+console.log(restItems);
+
+//with objects
+const {sat,...restHours}=restaurant.openingHours;
+console.log(restHours);
+
+//2.FUNCTIONS
+
+//fn which accepts any no of parameters - 
+const add=function(...numbers){
+  let sum=0;
+  for(let i=0;i<numbers.length;i++){
+    sum+=numbers[i];
+  }
+  console.log(sum);
+};
+
+add(2,3);
+add(4,5,6,77,9);
+
+//rest and spread
+const ab=[2,3,4];
+add(...ab);
+
+//collect all of the remaining basically unused parameters
+restaurant.orderPizzaMain('mushroom','olives','cheese','spinach');
+
+
+/*spread operator is used where we would otherwise write values, separated by a comma.
+rest pattern is used where we would otherwise write variable names separated by commas. */
+
+
+/*********************FOR OF LOOP*******************/
+
+const myMenu=[...restaurant.mainMenu,...restaurant.starterMenu];
+for(const item of myMenu)
+  console.log(item);
+
+for(const [index,element] of myMenu.entries())
+  console.log(index, element);
+
+
+/**********************ENHANCED OBJECT LITERALS**********/
+
+const openHours= {
+  thu: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // Open 24 hours
+    close: 24,
+  },
+};
+
+//use object name directly
+const hotel={title:'Helopl',openHours};
+console.log(hotel);
+
+
+/**********************STRINGS 1********************/
+
+//JavaScript will convert that string primitive to a string object with the same content and
+// then it's on that object where the methods are called.This process is called boxing
+
+const airline = 'TAP Air Portugal';
+
+console.log(airline[2]);
+console.log(airline.slice(2));
+console.log(airline.slice(-1));
+console.log(airline.slice(2,4));
+console.log('BHKI'[2]);
+console.log(airline.indexOf('P'));
+console.log(typeof new String('Akhila'));
+
+console.log(airline.replace('TAP','PAT'));
+console.log(airline.includes('APOL'));
+console.log(airline.startsWith('TAP'));
+
+
+//splits string and gives the result in an array
+console.log(airline.split(' '));
+
+const [firstName,middleName,lastName]=airline.split(' ');
+console.log(firstName+" "+lastName);
+
+//join() - joins string 
+console.log(['A','B','C','D'].join('----'));
+
+//padding - adding characters till it reaches the length
+let str=airline.padStart(25,'*').padEnd(35,'&');
+console.log(str+" "+str.length);
+
+//repeat
+console.log(airline.repeat(5));
+
+//masking application
+
+const maskCreditCard=function(cardNumber){
+  const str=cardNumber+'';
+  const last=str.slice(-4);
+  console.log(last.padStart(str.length,'*'));
+}
+
+maskCreditCard(2236562772726);
+
